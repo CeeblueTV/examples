@@ -1,0 +1,18 @@
+{
+  "name": "failover-service",
+  "version": "1.0.0",
+  "description": "A simple service implementing viewer endpoint load balancing and redundancy/failover of streams.",
+  "main": "failover-service.js",
+  "type": "module",
+  "scripts": {
+    "start": "node failover-service.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ceeblue B.V.",
+  "license": "",
+  "devDependencies": {
+    "api": "~6.1.1",
+    "body-parser": "1.20.2",
+    "express": "~4.18.3"
+  }
+}
