@@ -1,45 +1,60 @@
-# Template for a failover service
+# Failover service Template
 
-This is is a template script implementing an example of a failover service that :
+Welcome to the Failover Service Template, an illustrative example designed to showcase a resilient streaming solution utilizing the [Ceeblue API]. This template equips you with a robust script that:
 
-* Retrieves the current best endpoint for viewers to connect to,
-* Implement a redundant/failover mechanism to switch to another stream in case of failure.
-
-All this is done using the [Ceeblue API] which is responsible of the load balancing.
-
-The drawing below shows the architecture of the redundancy mechanism implemented by this script:
+Dynamically retrieves the most optimal streaming endpoint for viewers.
+Implements a redundancy mechanism to seamlessly switch to a backup stream in the event of a primary stream failure, ensuring an uninterrupted viewing experience.
+The diagram below visualizes the failover architecture facilitated by this script, highlighting its role in maintaining stream availability and quality:
 
 [![Failover service architecture](ceeblue-stream-redundancy.png)](ceeblue-stream-redundancy.png)
 
 > The API object on the right side is this script.
 
-## How to use
+## Getting Started
 
-**You need Node.js installed on your machine to run this script.**
+### Prerequisites
 
-The first step is to install the required dependencies:
+Ensure that you have Node.js installed on your machine to execute this script. Visit [Node.js official website] for installation instructions.
+
+### Installation
+
+Begin by installing the necessary dependencies to run the failover service:
 
 ```bash
 npm install
 ```
 
-Setup the CEEBLUE_TOKEN with your JWT first (see [here](https://docs.ceeblue.net/reference/authorization)).
-Then, run the script with the following command:
+### Configuration
 
-```bash
-node failover-service.js
-```
+1. **Authentication:**
 
-You can optionally specify the port to listen to with the `HTTP_PORT` environment variable:
+    * Securely authenticate by setting the `CEEBLUE_TOKEN` environment variable with your JWT. Refer to the [Ceeblue API authentication guide] for details.
+    * Alternatively you can use the `CEEBLUE_USERNAME` and `CEEBLUE_PASSWORD` environment variables to authenticate.
 
-```bash
-HTTP_PORT=8080 node failover-service.js
-```
+2. **Execution:** Run the script using the command below:
 
-## Going further
+    ```bash
+    node failover-service.js
+    ```
 
-This script is a simple example of a failover service. You can extend it to implement more complex API and failover mechanisms.
+3. **Options:** The following environment variables can be set to customize the failover service:
 
-Open the `failover-service.js` file and start editing it to fit your needs. Everything is commented to help you understand how it works and how to call your custom API.
+    * `HTTP_PORT`: Specify the port to listen to (default is 3000).
+    * `CEEBLUE_API_URL`: Set the Ceeblue API URL (default is `https://api.ceeblue.net`).
+    * `CEEBLUE_TOKEN`: Set the Ceeblue API token.
+    * `CEEBLUE_USERNAME`: Set the Ceeblue API username (if not using token).
+    * `CEEBLUE_PASSWORD`: Set the Ceeblue API password (if not using token).
+
+    You can set these variables when running the script, for example:
+
+    ```bash
+    HTTP_PORT=8080 node failover-service.js
+    ```
+
+## Customization & Expansion
+
+This script serves as a foundational example. You're encouraged to delve into the failover-service.js file to tailor it to your unique requirements. The code is thoroughly commented to facilitate an understanding of its operation and to guide you in integrating more sophisticated API interactions and failover strategies.
 
 [Ceeblue API]: https://docs.ceeblue.net/reference/
+[Node.js official website]: https://nodejs.org/en/download/
+[Ceeblue API authentication guide]: https://docs.ceeblue.net/reference/authorization
