@@ -1,0 +1,32 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "rules": {
+        "no-multi-spaces": ["error"],
+        "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true } ],
+        "key-spacing": ["error", { "beforeColon": false, "mode": "minimum" }],
+        "space-infix-ops": ["error", { "int32Hint": true }],
+        "indent": ["error", 4],
+        "no-console": 0,
+        "no-empty": [2, { "allowEmptyCatch": true }],
+        "no-unused-vars": "off", // Note: you must disable the base rule as it can report incorrect errors
+        "no-useless-escape": 0,
+        "no-trailing-spaces": ["error", { "ignoreComments": false}],
+        "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+        "nonblock-statement-body-position": ["error", "below", { "overrides": { "do": "any" } }],
+        "eqeqeq": ["error", "smart"],
+        "max-statements-per-line": ["error", { "max": 1 }],
+        "quotes": ["error", "single", { "avoidEscape": true, "allowTemplateLiterals":true }],
+        "no-multiple-empty-lines": ["error", { "max": 1}]
+    },
+    "globals": {
+        "process": "readonly"
+    }
+}
