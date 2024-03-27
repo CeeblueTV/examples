@@ -85,6 +85,11 @@ app.post('/stream/:alias', (req, res) => {
  * The service will try to get the primary stream first, then the secondary one if the primary is not available
  * The load balancer will be called to get the endpoint URL
  *
+ * Example of fetch request from a viewer :
+ * fetch('http://localhost:3000/stream/myStream/WebRTC').then(response => response.text()).then(endpoint =>{
+ *  console.log('Stream endpoint : ', endpoint);
+ * });
+ *
  * Example of curl command :
  * curl -X GET http://localhost:3000/stream/myStream/WebRTC
  *

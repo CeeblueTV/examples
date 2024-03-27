@@ -15,6 +15,8 @@ The drawing below shows the architecture of the redundancy mechanism implemented
 
 ## How to use
 
+**You need Node.js installed on your machine to run this script.**
+
 The first step is to install the required dependencies:
 
 ```bash
