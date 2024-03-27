@@ -5,6 +5,8 @@
  * - Retrieves the current best endpoint for viewers to connect to,
  * - Implement a failover mechanism to switch to another stream in case of failure.
  *
+ * Note that it does not manage the Ceeblue streams and the streams must exist in the Ceeblue platform.
+ *
  * API :
  * - POST/GET/DELETE /stream/:alias : CRUD operations on a stream
  * - GET /streams : returns the list of available streams
@@ -20,17 +22,17 @@ import express from 'express';
 // Get the environment arguments
 const API_URL = process.env.CEEBLUE_API_URL || 'https://api.ceeblue.tv/v1';
 const HTTP_PORT = process.env.HTTP_PORT || 3000;
-const USER_NAME = process.env.CEEBLUE_USER_NAME;
+const USERNAME = process.env.CEEBLUE_USERNAME;
 const PASSWORD = process.env.CEEBLUE_PASSWORD;
 
 // If the JWT token is not provided, login with the username and password
 if (!process.env.CEEBLUE_TOKEN) {
     // Retrieve the JSON Web Token
-    if (!PASSWORD || !USER_NAME) {
+    if (!PASSWORD || !USERNAME) {
         console.error('Missing Ceeblue auth credentials or JWT token. Please set CEEBLUE_USER_NAME and CEEBLUE_PASSWORD or CEEBLUE_TOKEN environment variables.');
         process.exit(1);
     }
-    await sdk.login(USER_NAME, PASSWORD, API_URL);
+    await sdk.login(USERNAME, PASSWORD, API_URL);
 } else {
     sdk.auth(process.env.CEEBLUE_TOKEN);
 }
@@ -60,7 +62,7 @@ app.listen(HTTP_PORT, () => {
  * /!\ The streams must exist in the Ceeblue platform
  *
  * Example of curl command :
- * curl -X POST http://localhost:3000/stream/myStream -H "Content-Type: application/json" -d '{"primary": "0771dbae-e63c-4794-b714-cf9a1d3f0d6f", "secondary": "as+5a8915ba-d0d7-4de7-bff9-551f58b3a501"}'
+ * curl -X POST http://localhost:3000/stream/myStream -H "Content-Type: application/json" -d '{"primary": "0771dbae-e63c-4794-b714-cf9a1d3f0d6f", "secondary": "5a8915ba-d0d7-4de7-bff9-551f58b3a501"}'
  */
 app.post('/stream/:alias', (req, res) => {
     console.log(`Creating a new stream : ${req.params.alias}, ${JSON.stringify(req.body)}...`);
