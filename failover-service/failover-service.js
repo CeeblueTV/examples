@@ -15,7 +15,7 @@
  * CEEBLUE_TOKEN=<Your bearer> ./failover-service.js
  */
 
-import * as sdk from './ceeblue-api.js';
+import * as sdk from '../common/ceeblue-api.js';
 import bodyParser from 'body-parser';
 import express from 'express';
 

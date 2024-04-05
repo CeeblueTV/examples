@@ -2,7 +2,7 @@ let baseUrl = 'https://api.ceeblue.tv/v1';
 let jwToken = undefined;
 
 // Fetch Ceeblue API
-async function fetchAPI(path, method = 'GET', body = undefined) {
+export async function fetchAPI(path, method = 'GET', body = undefined) {
     return new Promise((resolve, reject) => {
         fetch(`${baseUrl}/${path}`, {
             method,

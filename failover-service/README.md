@@ -40,7 +40,7 @@ npm install
 3. **Options:** The following environment variables can be set to customize the failover service:
 
     * `HTTP_PORT`: Specify the port to listen to (default is 3000).
-    * `CEEBLUE_API_URL`: Set the Ceeblue API URL (default is `https://api.ceeblue.net`).
+    * `CEEBLUE_API_URL`: Set the Ceeblue API URL (default is `https://api.ceeblue.net/v1`).
     * `CEEBLUE_TOKEN`: Set the Ceeblue API token.
     * `CEEBLUE_USERNAME`: Set the Ceeblue API username (if not using token).
     * `CEEBLUE_PASSWORD`: Set the Ceeblue API password (if not using token).
