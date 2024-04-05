@@ -1,6 +1,6 @@
 # The Node Groups list
 
-A Node.js script that demonstrates how to retrieve your nodes IPs using the [Ceeblue API].
+A Node.js script that demonstrates how to retrieve your nodes' IPs using the [Ceeblue API].
 
 This document also describes the API call (/node-groups) and a node-change callback feature. This is useful if you need to allowlist the Ceeblue nodes for security reasons.
 
