@@ -9,6 +9,11 @@ Welcome to the Ceeblue API Examples repository! Here, we offer a diverse range o
 - **Location:** [failover-service/](failover-service/)
 - **Description:** An intuitive service designed to enhance your streaming experience. It ensures continuous viewer engagement by automatically balancing the load across endpoints and seamlessly switching to redundant streams in the face of any disruptions. Perfect for maintaining uninterrupted access and high-quality streaming.
 
+### List Node Groups
+
+- **Location:** [list-node-groups/](list-node-groups/)
+- **Description:** A script that retrieves the list of nodes assigned to your account. This is particularly useful for security purposes, allowing you to allowlist Ceeblue nodes and ensure secure access to your services.
+
 ## Getting Started
 
 Before diving into these examples, make sure you’re familiar with the [Ceeblue API documentation](https://docs.ceeblue.net/reference/). It’s your go-to resource for understanding the capabilities and integration possibilities of the Ceeblue API.
