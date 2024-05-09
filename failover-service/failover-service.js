@@ -115,7 +115,7 @@ app.get('/stream/:alias/:format', async (req, res) => {
         if (!(await sdk.isStreamActive(stream.primary)) && stream.secondary && await sdk.isStreamActive(stream.secondary)) {
             streamId = stream.secondary;
         }
-        const endpoint = await sdk.getStreamEndpoint(streamId, req.params.format);
+        const endpoint = await sdk.getStreamEndpoint(streamId, req.params.format, req.socket.remoteAddress);
         res.send(endpoint);
     } catch (err) {
         console.log(err && err.data ? err.data.message : err);

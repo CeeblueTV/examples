@@ -75,9 +75,9 @@ export async function getInputsById(streamId) {
     });
 }
 
-export async function postOutputs({format, streamId}) {
+export async function postOutputs(format, streamId, ip) {
     return new Promise((resolve, reject) => {
-        fetchAPI('outputs', 'POST', {format, streamId}).then(result => {
+        fetchAPI('outputs', 'POST', {format, streamId, viewer: {ipAddress: ip}}).then(result => {
             resolve(result);
         }).catch(error => {
             reject(error);
@@ -108,9 +108,9 @@ export async function isStreamActive(streamId) {
  * (This is calling the load balancer)
  * @returns {Promise<string>} The output object (see https://docs.ceeblue.net/reference/post-outputs)
  */
-export async function getStreamEndpoint(streamId, format) {
+export async function getStreamEndpoint(streamId, format, ip) {
     return new Promise((resolve, reject) => {
-        postOutputs({format, streamId}).then(result => {
+        postOutputs(format, streamId, ip).then(result => {
             console.log(`Stream ${streamId}/${format} output : ${JSON.stringify(result)}`);
             resolve(result);
         }).catch(error => {
