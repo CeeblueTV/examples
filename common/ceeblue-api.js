@@ -32,8 +32,11 @@ export async function fetchAPI(path, method = 'GET', body = undefined) {
 }
 
 // Set the JWT token
-export function auth(token) {
+export function auth(token, apiUrl = undefined) {
     jwToken = token;
+    if (apiUrl) {
+        baseUrl = apiUrl;
+    }
 }
 
 // Ceeblue api mapping

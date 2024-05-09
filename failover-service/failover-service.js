@@ -34,7 +34,7 @@ if (!process.env.CEEBLUE_TOKEN) {
     }
     await sdk.login(USERNAME, PASSWORD, API_URL);
 } else {
-    sdk.auth(process.env.CEEBLUE_TOKEN);
+    sdk.auth(process.env.CEEBLUE_TOKEN, API_URL);
 }
 
 // A map of streams with the alias as key and the primary and secondary stream IDs as value
