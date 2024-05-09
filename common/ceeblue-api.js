@@ -1,3 +1,5 @@
+import fetch from 'node-fetch';
+
 let baseUrl = 'https://api.ceeblue.tv/v1';
 let jwToken = undefined;
 
