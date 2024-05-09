@@ -54,6 +54,35 @@ app.listen(HTTP_PORT, () => {
 /////////////////////////////
 
 /**
+ * Listen to the stream status callbacks
+ * The service will update the stream status in the streams map
+ */
+app.post('/callbacks/:alias', async (req, res) => {
+    //console.log(`Stream status callback : ${req.params.alias}, ${JSON.stringify(req.body)}...`);
+    const stream = streams.get(req.params.alias);
+    if (!stream) {
+        console.warn(`Status callback - stream ${req.params.alias} not found`);
+        return;
+    }
+    if (!req.body.id || !req.body.status) {
+        console.warn(`Status callback - Invalid message : ${JSON.stringify(req.body)}`);
+        return;
+    }
+
+    if (req.body.id === stream.primary) {
+        stream.primaryActive = req.body.status === 'Ingestion';
+        console.log(`Status callback - Stream ${req.params.alias} primary status : ${req.body.status}`);
+    } else if (stream.secondary && req.body.id === stream.secondary) {
+        stream.secondaryActive = req.body.status === 'Ingestion';
+        console.log(`Status callback - Stream ${req.params.alias} secondary status : ${req.body.status}`);
+    } else {
+        console.warn(`Status callback - Stream ${req.params.alias} unknown stream ID : ${req.body.id}`);
+    }
+
+    res.end();
+});
+
+/**
  * Create a new stream with the given alias
  * @param {string} alias - The stream alias
  *
@@ -80,7 +109,7 @@ app.post('/stream/:alias', (req, res) => {
     }
 
     // Create a new stream with the given alias
-    streams.set(req.params.alias, {primary: req.body.primary, secondary: req.body.secondary});
+    streams.set(req.params.alias, {primary: req.body.primary, primaryActive: false, secondary: req.body.secondary, secondaryActive: false});
     res.send(true);
 });
 
@@ -114,8 +143,13 @@ app.get('/stream/:alias/:format', async (req, res) => {
         let streamId = stream.primary;
 
         // If the primary stream is inactive and the secondary stream is active, use the secondary stream
-        if (!(await sdk.isStreamActive(stream.primary)) && stream.secondary && await sdk.isStreamActive(stream.secondary)) {
-            streamId = stream.secondary;
+        if (!stream.primaryActive) {
+            if (stream.secondary && stream.secondaryActive) {
+                streamId = stream.secondary;
+            } else {
+                res.status(404).send('Stream not running');
+                return;
+            }
         }
         const endpoint = await sdk.getStreamEndpoint(streamId, req.params.format, req.socket.remoteAddress);
         res.send(endpoint);
