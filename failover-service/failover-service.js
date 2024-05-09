@@ -18,6 +18,7 @@
 import * as sdk from '../common/ceeblue-api.js';
 import bodyParser from 'body-parser';
 import express from 'express';
+import cors from 'cors';
 
 // Get the environment arguments
 const API_URL = process.env.CEEBLUE_API_URL || 'https://api.ceeblue.tv/v1';
@@ -42,6 +43,7 @@ const streams = new Map();
 
 // Start the service
 const app = express();
+app.use(cors());
 app.use(bodyParser.json());
 app.listen(HTTP_PORT, () => {
     console.log(`Service listening on port ${HTTP_PORT}`);
