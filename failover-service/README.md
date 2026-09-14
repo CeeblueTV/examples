@@ -10,6 +10,10 @@ The diagram below visualizes the failover architecture facilitated by this scrip
 
 > The API object on the right side is this script.
 
+> If you only need the first of those two — a playback endpoint chosen per
+> viewer — [output-resolver/](../output-resolver/) does that alone, with no
+> callbacks to configure and no server to keep running.
+
 ## Getting Started
 
 ### Prerequisites

@@ -4,10 +4,15 @@ Welcome to the Ceeblue API Examples repository! Here, we offer a diverse range o
 
 ## Featured Examples
 
+### Output Resolver
+
+- **Location:** [output-resolver/](output-resolver/)
+- **Description:** A small HTTP service that turns a stream id into a playback endpoint chosen for the viewer requesting it, so viewers are spread across suitable edges instead of all landing on one hardcoded host. It keeps your API credentials off the client, and runs unchanged on Cloudflare Workers, your own server, or AWS Lambda. Start here if you embed a web player.
+
 ### Failover Service
 
 - **Location:** [failover-service/](failover-service/)
-- **Description:** An intuitive service designed to enhance your streaming experience. It ensures continuous viewer engagement by automatically balancing the load across endpoints and seamlessly switching to redundant streams in the face of any disruptions. Perfect for maintaining uninterrupted access and high-quality streaming.
+- **Description:** An intuitive service designed to enhance your streaming experience. It ensures continuous viewer engagement by automatically balancing the load across endpoints and seamlessly switching to redundant streams in the face of any disruptions. Perfect for maintaining uninterrupted access and high-quality streaming. It builds on the same endpoint resolution as [output-resolver/](output-resolver/), so start there if you do not need redundancy.
 
 ### List Node Groups
 

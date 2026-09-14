@@ -1,0 +1,12 @@
+name = "ceeblue-output-resolver"
+main = "worker.mjs"
+compatibility_date = "2026-09-01"
+
+# Secrets are set out of band and are not stored here:
+#   npx wrangler secret put CEEBLUE_PASSWORD
+[vars]
+CEEBLUE_USERNAME = "YOUR_USER_NAME"
+# CEEBLUE_API_BASE = ...
+
+[observability]
+enabled = true
