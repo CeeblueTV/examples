@@ -1,4 +1,7 @@
 node_modules/
 
+output-resolver/.wrangler/
+output-resolver/function.zip
+
 # Editors
 .vscode/

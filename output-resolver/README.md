@@ -213,17 +213,57 @@ aws lambda add-permission \
   --function-name ceeblue-output-resolver \
   --statement-id FunctionURLAllowPublicAccess \
   --action lambda:InvokeFunctionUrl --principal '*' --function-url-auth-type NONE
+
+aws lambda add-permission \
+  --function-name ceeblue-output-resolver \
+  --statement-id FunctionURLInvokeAllowPublicAccess \
+  --action lambda:InvokeFunction --principal '*' --invoked-via-function-url
 ```
 
-Two things that catch people out:
+`create-function-url-config` prints the URL, and you can look it up again at any
+time:
 
+```bash
+aws lambda get-function-url-config \
+  --function-name ceeblue-output-resolver --query FunctionUrl --output text
+```
+
+That gives a `https://<id>.lambda-url.<region>.on.aws/` URL. Check it end to end
+with no stream id — a `400` proves the whole chain works without needing a live
+broadcast:
+
+```bash
+URL=$(aws lambda get-function-url-config \
+  --function-name ceeblue-output-resolver --query FunctionUrl --output text)
+
+curl "$URL"                       # {"error":"bad-request",...}
+curl "$URL?stream=<streamId>"     # 200, or 404 if not broadcasting
+```
+
+Quote the URL once you add `&format=` — an unquoted `&` backgrounds the command.
+
+Three things that catch people out:
+
+- **Both `add-permission` calls are required.** Function URLs created since
+  October 2025 need `lambda:InvokeFunction` as well as
+  `lambda:InvokeFunctionUrl`. With only the first, every request gets a bare
+  `403 Forbidden` and the function is never invoked — so nothing appears in
+  CloudWatch Logs, which makes it look like a network or account problem rather
+  than a missing permission.
 - A freshly created role takes a few seconds to propagate. If `create-function`
   reports *"The role defined for the function cannot be assumed by Lambda"*,
   wait and run it again.
 - Leave the Function URL's own CORS configuration empty — the service sends its
   own headers.
 
-Deploying needs Lambda permissions plus `iam:PassRole` for that one role.
+The two steps need different permissions, and the first is the bigger ask.
+Creating the role needs `iam:CreateRole` and `iam:AttachRolePolicy`, which
+developer permission sets often withhold — `CreateRole` together with
+`PassRole` amounts to self-granted admin. If `create-role` returns
+`AccessDenied`, someone with IAM write has to create the role once; deploying
+against it afterwards needs no IAM write at all.
+
+Deploying then needs Lambda permissions plus `iam:PassRole` for that one role.
 `iam:PassRole` cannot be avoided: handing a role to a service is itself
 privileged, since otherwise anyone able to create a function could run it as an
 administrator. It can be scoped to a single role:
