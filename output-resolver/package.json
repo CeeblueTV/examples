@@ -1,0 +1,13 @@
+{
+  "name": "output-resolver",
+  "version": "1.0.0",
+  "description": "Resolves a per-viewer playback endpoint for a stream, keeping Ceeblue API credentials off the client.",
+  "main": "server.mjs",
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "deploy": "npx wrangler deploy"
+  },
+  "author": "Ceeblue B.V.",
+  "license": ""
+}
