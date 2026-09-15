@@ -75,15 +75,21 @@ async function login(config) {
   return token;
 }
 
-// Cache the promise, not the token, so a failed login does not stick.
-function getToken(config, forceRefresh) {
-  if (forceRefresh) {
-    tokenPromise = null;
+// Cache the promise, not the token, so concurrent requests share a login. A
+// refresh only replaces the promise that supplied the rejected token; if
+// another request already replaced it, reuse that request's refresh instead.
+function getToken(config, stalePromise) {
+  if (tokenPromise === null || (stalePromise && tokenPromise === stalePromise)) {
+    const nextPromise = login(config).catch(error => {
+      // An older failed login must not clear a newer in-flight refresh.
+      if (tokenPromise === nextPromise) {
+        tokenPromise = null;
+      }
+      throw error;
+    });
+
+    tokenPromise = nextPromise;
   }
-  tokenPromise ??= login(config).catch(error => {
-    tokenPromise = null;
-    throw error;
-  });
   return tokenPromise;
 }
 
@@ -161,12 +167,14 @@ export async function handleRequest(request, config) {
   const viewer = viewerFrom(request, config);
 
   try {
-    let token = await getToken(config, false);
+    let tokenRequest = getToken(config);
+    let token = await tokenRequest;
     let response = await createOutput(config, token, streamId, format, viewer);
 
     // A cached token can outlive its validity (revoked, password rotated).
-    if (response.status === 401 || response.status === 403) {
-      token = await getToken(config, true);
+    if (response.status === 401) {
+      tokenRequest = getToken(config, tokenRequest);
+      token = await tokenRequest;
       response = await createOutput(config, token, streamId, format, viewer);
     }
 
